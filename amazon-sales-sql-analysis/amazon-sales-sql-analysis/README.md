@@ -181,7 +181,7 @@ GROUP BY
 ORDER BY
     TotalRevenueGenerated DESC
 LIMIT 10;
-``
+```
 
 ## 📂 Repository Structure
 
