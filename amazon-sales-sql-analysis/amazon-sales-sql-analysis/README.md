@@ -183,7 +183,8 @@ ORDER BY
 LIMIT 10;
 ```
 
+
 ## 📂 Repository Structure
 
-amazon-sales-sql-analysis/ ├── README.md <-- (This detailed report) ├── SQL_Queries.sql <-- A single file containing all query code for PgAdmin ├── data/ │ └── Amazon Sale Report.csv <-- Original data ├── results/ <-- CSV outputs of the queries └── visualizations/ <-- PNG/JPEG images of supporting charts
+It is critical that a data analysis project is logically organized. This folder (`amazon-sales-sql-analysis/`) is structured as follows within the main `Data-Analysis-Portfolio` monorepo:
 
