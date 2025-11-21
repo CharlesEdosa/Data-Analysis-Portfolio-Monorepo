@@ -189,5 +189,11 @@ LIMIT 10;
 It is critical that a data analysis project is logically organized. This folder (`amazon-sales-sql-analysis/`) is structured as follows within the main `Data-Analysis-Portfolio` monorepo:
 
 ```
-amazon-sales-sql-analysis/ ├── README.md <-- (This detailed report, the executive summary) ├── SQL_Queries.sql <-- A single file containing all 7 SQL queries for easy execution ├── data/ │ └── Amazon Sale Report.csv <-- The raw, original dataset ├── results/ <-- CSV outputs of the queries (e.g., fulfillment breakdown) └── visualizations/ <-- PNG/JPEG images of supporting charts (e.g., revenue by channel)
+amazon-sales-sql-analysis/
+├── README.md                      <-- (This detailed report)
+├── SQL_Queries.sql                <-- A single file containing all query code for PgAdmin
+├── data/
+│   └── Amazon Sale Report.csv     <-- Original data
+├── results/                       <-- CSV outputs of the queries
+└── visualizations/                <-- PNG/JPEG images of supporting charts
 ```
