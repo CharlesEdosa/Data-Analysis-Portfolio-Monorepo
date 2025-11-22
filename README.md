@@ -1,10 +1,6 @@
-# Data-Analysis-Portfolio-Monorepo
-A collection of data analysis and business intelligence projects using SQL, Python, Tableau and many other tools.
+# 📊 Data Analysis & Business Intelligence Portfolio(Monorepo)
 
-# 📊 Data Analysis & Business Intelligence Portfolio
-
-Hello! I'm a Data Analyst passionate about translating complex data into clear, actionable business strategies. This repository is a curated collection of my end-to-end data projects, demonstrating proficiency from data cleaning and wrangling to advanced analysis and final visualization.
-
+I'm a Data Analyst passionate about translating complex data into clear, actionable business strategies. This repository is a curated collection of my end-to-end data projects, demonstrating proficiency from data cleaning and wrangling to advanced analysis and final visualization.
 ## 🛠️ Technical Skills
 
 The tools and technologies used throughout these projects:
