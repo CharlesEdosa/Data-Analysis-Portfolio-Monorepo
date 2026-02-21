@@ -10,27 +10,46 @@
 
 ## 📝 Project Goal
 
-This project executes an end-to-end data analysis using **SQL** on the Amazon Sale Report (129K transactions). The primary focus is to answer critical business questions to improve profitability and operational efficiency within the e-commerce framework.
-
-The analysis specifically showcases:
-* **Advanced SQL Techniques:** Utilizing Common Table Expressions (CTEs), Conditional Aggregation, and Window Functions.
-* **Business Intelligence:** Translating quantitative findings into direct, actionable business strategies.
+This project analyzes Amazon sales data using **advanced SQL techniques** to answer real-world business questions related to revenue performance, customer behavior, logistics efficiency, and operational risk.  
+The focus is on translating business questions into performant, explainable SQL logic rather than simple aggregation.
 
 ---
-## 🛠️ Data Preparation and Tools
 
-The raw data was loaded into a database environment (e.g., PgAdmin connected to a PostgreSQL instance).
+## 🧠 Key Skills Demonstrated
 
-### Key Data Cleaning Steps (SQL Focus)
-
-| Cleaning Task | SQL Rationale |
-| :--- | :--- |
-| **Renamed column** | Used `ALTER TABLE amazon_sales_report... RENAME "Order ID" TO order_id` renamed some columns to make querying easier |
-| **Data Type Conversion** | Used `CAST(Date AS DATE)` to convert the date column from text to a proper `DATE` type for time-series analysis. |
-| **Missing Value Imputation** | Employed `COALESCE(Amount, 0)` in all revenue calculations to safely treat null `Amount` values (which typically correlate with cancelled orders) as zero revenue. |
-| **Data Filtering** | Filtered out rows where `ship-state` was null for geographic analysis. |
+- Window functions (`RANK`, `LAG`, `AVG() OVER`)
+- Time-series analysis
+- Binning & distributions
+- Pivot-style conditional aggregation
+- String analytics (`STRING_AGG`, `TRIM`, `NULLIF`)
+- Business-driven SQL design
 
 ---
+
+## 📊 Dataset
+
+- **Source:** Kaggle – Amazon Sales Report (public dataset)
+- **Time Period:** March–June 2022
+- **Rows:** ~X
+- **Key Columns:**  
+  `order_id`, `order_date`, `amount`, `qty`, `status`, `category`, `style`, `fulfilment`, `ship_state`
+
+---
+
+## 🗂 Repository Structure
+
+```
+amazon-sales-analysis/
+├── README.md # Project overview & business context
+├── sql/
+│ ├── 01_data_cleaning.sql # Staging, data cleansing, type conversion
+│ └── 02_analysis_queries.sql # Business-driven analytical SQL
+├── docs/
+│ └── data_preparation.md # Detailed ETL design & rationale
+
+```
+
+
 ## 🎯 Key Business Questions & Analysis
 
 This section features **seven highly relevant questions** for any e-commerce or sales operation.
