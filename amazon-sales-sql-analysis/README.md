@@ -1,4 +1,4 @@
-# 🛒 Amazon Sales Performance Analysis (April - May 2022)
+# 🛒 # Amazon Sales Analysis — PostgreSQL ETL Project
 
 **Identifying key sales drivers, optimizing logistics, and improving inventory strategy using SQL.**
 
