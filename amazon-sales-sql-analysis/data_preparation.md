@@ -4,7 +4,7 @@
 ## 🛠️ Data Preparation and Tools
 
 > **Note:** A full, step-by-step explanation of the ETL design decisions is documented separately in  
-> 📄 [`docs/data_preparation.md`](data_preparation.md)
+> 📄 [data_preparation.md](data_preparation.md)
 
 ### Problem Overview
 
