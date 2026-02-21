@@ -65,16 +65,30 @@ To ensure data integrity, fault tolerance, and controlled type conversion, the d
 
 ---
 
-## 📈 Analytical Focus
-The SQL analyses in this project are designed to answer questions such as:
+## 🔍 Business Questions
 
-- How is revenue distributed across product categories and fulfillment types?
-- Which order statuses contribute most to revenue leakage or operational risk?
-- How does sales concentration change over time?
-- Are there regional or logistical patterns affecting delivery outcomes?
+This analysis was designed to support commercial and operational decision-making.  
+Specifically, it answers the following business questions:
 
-Each query is written with **clear business intent**, optimized joins, and transparent logic suitable for review and extension.
+1. **Revenue Concentration**
+   - Which product styles contribute the most revenue within each category, and how do they rank against competitors in the same category?
+   - How are customer orders distributed across revenue bands (e.g., ₹0–₹500, ₹500–₹1000, etc.)?
+   - Which fulfillment methods outperform or underperform their category’s average revenue contribution?
+   - What percentage of total revenue is driven by the top 20% of products?
 
+2. **Operational Risk & Revenue Leakage**
+   - Which shipping service levels generate high volume but low average order value?
+   - Which products have the widest price variability between their minimum and maximum order values?
+     
+
+3. **Sales Performance Over Time**
+   - How does daily revenue trend over time, and what is the rolling 7-day average to smooth volatility?
+   - Which months generate the highest revenue, how does revenue fluctuate month-over-month, and what intra-year seasonal patterns can be         observed?
+   - Which products show declining performance compared to their previous sales period?
+
+4. **Geographic & Logistics Performance**
+   - What product combinations are most frequently purchased together in the same order?
+   - Which states show unusually high cancellation rates compared to the national average?
 ---
 
 ## 🧩 Tools & Environment
