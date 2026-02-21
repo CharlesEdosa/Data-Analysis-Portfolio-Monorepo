@@ -48,3 +48,9 @@ amazon-sales-analysis/
 │ └── data_preparation.md # Detailed ETL design & rationale
 
 ```
+## 🛠️ Data Preparation and Tools
+
+The dataset required a staged ETL process due to structural and data-quality issues that prevented direct ingestion into PostgreSQL.
+
+📄 **Detailed ETL design and cleaning logic:**  
+[data_preparation.md](data_preparation.md)
