@@ -1,7 +1,8 @@
 ## 🔍 Business Questions
 
 1. **Revenue Concentration**
-   * Which product styles contribute the most revenue within each category, and how do they rank against competitors in the same category?
+   
+* Which product styles contribute the most revenue within each category, and how do they rank against competitors in the same category?
 
 
 ```
@@ -26,7 +27,7 @@ FROM category_revenue
 ORDER BY category, revenue_rank_in_category;
 ```
 
- * How are customer orders distributed across revenue bands (e.g., ₹0–₹500, ₹500–₹1000, etc.)?
+* How are customer orders distributed across revenue bands (e.g., ₹0–₹500, ₹500–₹1000, etc.)?
 
 ```
 WITH order_distribution AS (
@@ -46,4 +47,187 @@ GROUP BY
     revenue_bin_end
 ORDER BY
     revenue_bin_start;
+```
+
+* Which fulfillment methods outperform or underperform their category’s average revenue contribution?
+
+```
+WITH fulfillment_perf AS (
+    SELECT
+        category,
+        fulfilment,
+        SUM(COALESCE(amount,0)) AS revenue
+    FROM amazon_raw
+    GROUP BY category, fulfilment
+)
+SELECT
+    category,
+    fulfilment,
+    revenue,
+    ROUND(
+        revenue - AVG(revenue) OVER (PARTITION BY category),-- positive = otperforms, and negative = underperform
+        2
+    ) AS deviation_from_category_avg
+FROM fulfillment_perf
+ORDER BY category, deviation_from_category_avg DESC;
+```
+
+* What percentage of total revenue is driven by the top 20% of products?
+
+```
+WITH product_revenue AS (
+    SELECT
+        ASIN,
+        SUM(COALESCE(amount, 0)) AS total_revenue
+    FROM amazon_raw
+    GROUP BY ASIN
+),
+ranked_products AS (
+    SELECT
+        ASIN,
+        total_revenue,
+        NTILE(5) OVER (ORDER BY total_revenue DESC) AS revenue_bucket
+    FROM product_revenue
+),
+revenue_totals AS (
+    SELECT
+        SUM(total_revenue) AS overall_revenue,
+        SUM(CASE WHEN revenue_bucket = 1 THEN total_revenue ELSE 0 END) AS top_20_revenue
+    FROM ranked_products
+)
+SELECT
+    top_20_revenue,
+    overall_revenue,
+    (top_20_revenue * 100.0 / overall_revenue) AS top_20_revenue_percentage
+FROM revenue_totals;
+```
+
+2. **Operational Risk & Revenue Leakage**
+
+* Which shipping service levels generate high volume but low average order value?
+
+```
+WITH service_metrics AS (
+    SELECT
+        ship_service_level,
+        COUNT(DISTINCT order_id) AS total_orders,
+        ROUND(
+            SUM(COALESCE(amount, 0)) * 1.0
+            / COUNT(DISTINCT order_id),
+            2
+        ) AS avg_order_value
+    FROM amazon_raw
+    GROUP BY ship_service_level
+)
+SELECT *
+FROM service_metrics
+WHERE
+    total_orders > (
+        SELECT AVG(total_orders) FROM service_metrics
+    )
+    AND avg_order_value < (
+        SELECT AVG(avg_order_value) FROM service_metrics
+    );
+```
+* Which products have the widest price variability between their minimum and maximum order values?
+
+```
+
+```
+SELECT
+    ASIN,
+    MIN(NULLIF(amount, 0)) AS min_price,
+    MAX(amount) AS max_price,
+    MAX(amount) - MIN(NULLIF(amount, 0)) AS price_range
+FROM amazon_raw
+WHERE status ILIKE '%shipped%'
+GROUP BY ASIN
+HAVING MAX(amount) > MIN(NULLIF(amount, 0))
+ORDER BY price_range DESC;
+```
+
+3. **Sales Performance Over Time**
+
+* How does daily revenue trend over time, and what is the rolling 7-day average to smooth volatility?
+
+```
+WITH daily_sales AS (
+    SELECT
+        DATE_TRUNC('day', order_date) AS day_order,
+        SUM(COALESCE(amount, 0)) AS daily_revenue
+    FROM amazon_raw
+    WHERE status LIKE '%Shipped%' -- because revenue is calculated for only shipped orders and not for canceled or returned orders
+    GROUP BY 1
+)
+SELECT
+    day_order,
+    daily_revenue,
+    ROUND(
+        AVG(daily_revenue) OVER (
+            ORDER BY day_order
+            ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+        ),
+        2
+    ) AS rolling_7_day_avg
+FROM daily_sales
+ORDER BY day_order;
+```
+* Which months generate the highest revenue, how does revenue fluctuate month-over-month, and what intra-year seasonal patterns can be observed?
+
+```
+WITH monthly_revenue AS (
+    SELECT
+        DATE_TRUNC('month', order_date) AS month,
+        SUM(COALESCE(amount, 0)) AS total_revenue
+    FROM amazon_raw
+    WHERE status ILIKE '%shipped%'
+    GROUP BY 1
+)
+
+SELECT
+    month,
+    total_revenue,
+    RANK() OVER (ORDER BY total_revenue DESC) AS revenue_rank,
+    total_revenue
+        - AVG(total_revenue) OVER () AS deviation_from_year_avg,
+    total_revenue
+        - LAG(total_revenue) OVER (ORDER BY month) AS month_over_month_change
+FROM monthly_revenue
+ORDER BY month;
+```
+
+* Which products show declining performance compared to their previous sales period?
+
+```
+WITH monthly_performance AS (
+    SELECT
+        ASIN,
+        DATE_TRUNC('month', order_date) AS month_start,
+        SUM(COALESCE(qty, 0) * COALESCE(amount, 0)) AS performance
+    FROM amazon_raw
+    WHERE status ILIKE '%shipped%'
+    GROUP BY 1, 2
+),
+
+performance_comparison AS (
+    SELECT
+        ASIN,
+        month_start,
+        performance,
+        LAG(performance) OVER (
+            PARTITION BY ASIN
+            ORDER BY month_start
+        ) AS previous_period_performance
+    FROM monthly_performance
+)
+
+SELECT
+    ASIN,
+    month_start,
+    performance,
+    previous_period_performance,
+    performance - previous_period_performance AS performance_change
+FROM performance_comparison
+WHERE performance < previous_period_performance
+ORDER BY style, month_start;
 ```
