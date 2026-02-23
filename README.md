@@ -27,7 +27,7 @@ The tools and technologies used throughout these projects:
 
 | Link | Focus | Tools Used | Key Takeaway |
 | :--- | :--- | :--- | :--- |
-| **[Project Details](https://github.com/CharlesEdosa/Data-Analysis-Portfolio-Monorepo/tree/c4dff813450d865af46ef7ff73bbc9b8b85f9430/amazon-sales-sql-analysis)** | **Logistics & Sales Optimization** | SQL (CTEs, Aggregation), Tableau | Optimized inventory placement by identifying the $\mathbf{70\%}$ revenue dominance of one fulfillment channel and localized high cancellation rates. |
+| **[Project Details](https://github.com/CharlesEdosa/Data-Analysis-Portfolio-Monorepo/tree/b88d3f215614a77873aab457f7166ecff85e48fb/amazon-sales-sql-analysis)** | **Logistics & Sales Optimization** | SQL (CTEs, Aggregation), Tableau | Optimized inventory placement by identifying the $\mathbf{70\%}$ revenue dominance of one fulfillment channel and localized high cancellation rates. |
 
 * **Code:** [View SQL Queries](https://github.com/CharlesEdosa/Data-Analysis-Portfolio-Monorepo/blob/c4ef7fae8741eafef5dc2fed42821eb31a7490f8/amazon-sales-sql-analysis/amazon_sales_queries)
 * **Data Source:** [Amazon Sale Report CSV](amazon-sales-sql-analysis/data/Amazon%20Sale%20Report.csv)
