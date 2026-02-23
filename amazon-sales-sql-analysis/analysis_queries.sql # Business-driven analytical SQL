@@ -1,7 +1,7 @@
 ## 🔍 Business Questions
 
 1. **Revenue Concentration**
-  - Which product styles contribute the most revenue within each category, and how do they rank against competitors in the same category?
+   * Which product styles contribute the most revenue within each category, and how do they rank against competitors in the same category?
 
 
 ```
@@ -24,3 +24,26 @@ SELECT
     ) AS revenue_rank_in_category
 FROM category_revenue
 ORDER BY category, revenue_rank_in_category;
+```
+
+ * How are customer orders distributed across revenue bands (e.g., ₹0–₹500, ₹500–₹1000, etc.)?
+
+```
+WITH order_distribution AS (
+    SELECT
+        order_id,
+        FLOOR(amount / 1000.0) * 1000 AS revenue_bin_start,
+        FLOOR(amount / 1000.0) * 1000 + 1000 AS revenue_bin_end
+    FROM amazon_raw
+    WHERE amount IS NOT NULL
+)
+SELECT
+    CONCAT(revenue_bin_start, ' - ', revenue_bin_end) AS revenue_band,
+    COUNT(*) AS order_count
+FROM order_distribution
+GROUP BY
+    revenue_bin_start,
+    revenue_bin_end
+ORDER BY
+    revenue_bin_start;
+```
