@@ -61,7 +61,7 @@ The dataset required a **staged ETL process** due to multiple structural and dat
 To ensure data integrity, fault tolerance, and controlled type conversion, the data was first loaded into a staging table and progressively normalized.
 
 📄 **Detailed ETL design and cleaning logic:**  
-[`data_cleaning_sql.md`](data_cleaning_sql.md)
+[`data_cleaning_sql.md`](https://github.com/CharlesEdosa/Data-Analysis-Portfolio-Monorepo/blob/e025b4a484432a53f36930809614c55bf307c738/amazon-sales-sql-analysis/data_cleaning_sql)
 
 ---
 
