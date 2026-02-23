@@ -61,7 +61,7 @@ The dataset required a **staged ETL process** due to multiple structural and dat
 To ensure data integrity, fault tolerance, and controlled type conversion, the data was first loaded into a staging table and progressively normalized.
 
 📄 **Detailed ETL design and cleaning logic:**  
-[`data_preparation.md`](data_preparation.md)
+[`data_cleaning_sql.md`](data_cleaning_sql.md)
 
 ---
 
