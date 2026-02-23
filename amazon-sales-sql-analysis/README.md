@@ -67,8 +67,8 @@ To ensure data integrity, fault tolerance, and controlled type conversion, the d
 
 ## 🔍 Business Questions
 
-This analysis was designed to support commercial and operational decision-making.  
-Specifically, it answers the following business questions:
+This analysis was designed to support commercial and operational decision-making.  Specifically, it answers the following business questions:
+[View Analysis Queries](analysis_queries.sql)
 
 1. **Revenue Concentration**
    - Which product styles contribute the most revenue within each category, and how do they rank against competitors in the same category?
