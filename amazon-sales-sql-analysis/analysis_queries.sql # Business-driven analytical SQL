@@ -1,0 +1,26 @@
+## 🔍 Business Questions
+
+1. **Revenue Concentration**
+  - Which product styles contribute the most revenue within each category, and how do they rank against competitors in the same category?
+
+
+```
+WITH category_revenue AS (
+    SELECT
+        category,
+        style,
+        SUM(COALESCE(amount, 0)) AS total_revenue
+    FROM amazon_raw
+    WHERE status LIKE 'shipped%'
+    GROUP BY category, style
+)
+SELECT
+    category,
+    style,
+    total_revenue,
+    RANK() OVER (
+        PARTITION BY category
+        ORDER BY total_revenue DESC
+    ) AS revenue_rank_in_category
+FROM category_revenue
+ORDER BY category, revenue_rank_in_category;
