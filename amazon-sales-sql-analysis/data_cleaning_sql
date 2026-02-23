@@ -1,0 +1,48 @@
+
+---
+
+## 🛠️ Data Preparation and Tools
+
+
+### Problem Overview
+
+The source CSV could not be loaded directly into PostgreSQL due to multiple structural and data-quality issues:
+
+- **Non-standard CSV format:** A decorative title row (`Amazon Sale Report`) appeared above the actual header row, shifting column alignment.
+- **Implicit NULL values:** Numeric and boolean fields such as `amount`, `qty`, and `b2b` contained empty strings (`''`) or whitespace (`' '`).
+- **Type incompatibility:** PostgreSQL rejects empty strings when casting to `NUMERIC` or `BOOLEAN`, causing ingestion failures.
+
+A direct import into a strongly typed table was therefore not viable.
+
+---
+
+### Staged ETL Strategy
+
+To ensure data retention, fault tolerance, and controlled type conversion, I implemented a **staged ETL process**.
+
+#### Step 1: Raw Landing (Staging Table)
+
+A staging table (`amazon_raw`) was created with **all columns defined as `TEXT`**.  
+This allowed the raw CSV to be ingested without errors, regardless of formatting or data quality issues.
+
+#### Step 2: Structural Cleanup
+
+After ingestion, non-data rows introduced by the CSV formatting were removed:
+
+```sql
+DELETE FROM amazon_raw
+WHERE index = 'index'
+   OR (index IS NULL AND orderid IS NULL);
+```
+
+#### Step 3: Schema Transformation
+
+Columns were converted to their appropriate data types using ALTER TABLE ... USING with defensive casting logic to safely handle implicit nulls.
+
+Example:
+
+```
+ALTER TABLE amazon_raw
+ALTER COLUMN amount TYPE NUMERIC(10,2)
+USING NULLIF(TRIM(amount), '')::NUMERIC;
+```
